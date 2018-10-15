@@ -184,7 +184,7 @@ def parse_args():
 
     args = parser.parse_args()
 
-    args.imu_feature = len(args.imus) * args.num_classes
+    args.imu_feature = len(args.imus) * args.num_classes ## IMU variable set
     assert args.batch_size % args.break_batch == 0, "--batch-size must be "\
         "divisible by --break-batch."
     if args.absolute_regress:
@@ -207,6 +207,9 @@ def parse_args():
 
 
 def get_data_loaders(args):
+    """
+    Get data loader
+    """
     train_dataset = args.dataset(args, train=True)
     val_dataset = args.dataset(args, train=False)
     # Do not shuffle dataset in save_feats mode to get consistent order of

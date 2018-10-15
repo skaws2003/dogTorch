@@ -22,12 +22,14 @@ class ResNet18Image2IMU(BaseModel):
 
     def __init__(self, args):
         super(ResNet18Image2IMU, self).__init__()
+        ## sequence_length : we use two frames to train
+        ## input_length : we use two frames to input
+        ## output_length : output data length
         assert args.sequence_length == 2, "ResNet18Image2IMU supports seq-len=2"
         assert args.input_length == 2, "input length not currect"
         assert args.output_length == 1, "output length not currect"
-
-        self.class_weights = args.dataset.CLASS_WEIGHTS[torch.LongTensor(
-            args.imus)]
+        
+        self.class_weights = args.dataset.CLASS_WEIGHTS[torch.LongTensor(args.imus)]
         self.output_length = args.output_length
         self.lr = args.lrm
         self.step_size = args.step_size
