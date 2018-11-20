@@ -89,7 +89,7 @@ def parse_args():
                         help='number of data loading workers')
     parser.add_argument('--verbose', action='store_true',
                         help='Level of logging the outputs')
-    parser.add_argument('--epochs', default=25, type=int, metavar='N',
+    parser.add_argument('--epochs', default=90000, type=int, metavar='N',
                         help='number of total epochs to run')
     parser.add_argument('-b', '--batch-size', default=256, type=int,
                         metavar='N', help='mini-batch size (default: 256)')
