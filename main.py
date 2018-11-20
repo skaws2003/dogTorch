@@ -254,9 +254,7 @@ def main():
             solver.train_one_epoch(model, loss, optimizer, train_loader, i + 1, args)
             solver.test_one_epoch(model, loss, val_loader, i + 1, args)
             if i % args.save_frequency == 0:
-                torch.save(
-                    model.state_dict(),
-                    os.path.join(args.save, 'model_state_{:02d}.pytar'.format(i + 1)))
+                torch.save(model.state_dict(),os.path.join(args.save, 'model_state_{:02d}.pytar'.format(i + 1)))
     elif args.mode == 'test':
         solver.test_one_epoch(model, loss, val_loader, 0, args)
     elif args.mode == 'save_feats':

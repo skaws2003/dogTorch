@@ -35,20 +35,19 @@ class LstmImg2LastImus(BaseModel):
         self.class_weights = args.dataset.CLASS_WEIGHTS[torch.LongTensor(
             args.imus)]
 
-        self.embedding_input = nn.Linear(args.image_feature, args.hidden_size)
-        self.lstm = Lstm(args)
+        self.embedding_input = nn.Linear(args.image_feature, args.hidden_size)      # number of image feature=1024(imagenet) hidden size=512(default)
+        self.lstm = Lstm(args)      # Yes. LSTM.
 
-    def forward(self, input, target):
-        input = input[:, :self.input_length]
-        output_indices = list(
-            range(target.size(1) - self.output_length, target.size(1)))
-        target = target[:, -self.output_length:]
-
-        input = input.transpose(0, 1)
+    def forward(self, input, target):       # input size: 256*10*1024(batch size * seq length * img features)
+        input = input[:, :self.input_length]        # Now input size: 256*5*1024(batch size * input length * img features)
+        output_indices = list(range(target.size(1) - self.output_length, target.size(1)))       # 5,6,7,8,9
+        target = target[:, -self.output_length:]        # last 5 elements of target
+        input = input.transpose(0, 1)       
         embedded_input = self.embedding_input(input)
         full_output = self.lstm(embedded_input, target=None)
-        return full_output.transpose(
-            0, 1), target, torch.LongTensor(output_indices)
+        print(torch.LongTensor(output_indices))
+        exit()
+        return full_output.transpose(0, 1), target, torch.LongTensor(output_indices)
 
     def loss(self):
         return MultiLabelCrossEntropyLoss(self.class_weights)
@@ -72,6 +71,9 @@ class LstmImg2LastImus(BaseModel):
         return 100 * perplexity
 
     def learning_rate(self, epoch):
+        """
+        scheduler-like thingy
+        """
         base_lr = 0.001
         decay_rate = 0.1
         step = 90
