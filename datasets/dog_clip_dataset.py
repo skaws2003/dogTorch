@@ -18,8 +18,10 @@ import pdb
 
 
 def _read_labels(json_file, imus, sequence_length):
-    """Returns a list of all frames, and a list of where each data point (whose
-    length is sequence_length) in the list of frames."""
+    """
+    Returns a list of all frames, and a list of where each data point (whose
+    length is sequence_length) in the list of frames.
+    """
     with open(json_file, 'r') as fp:
         dataset_meta = json.load(fp)
     frames = []
@@ -74,6 +76,9 @@ def _category_weights():
 
 
 class DogClipDataset(data.Dataset):
+    """
+    A dataset for "Acting Like a Dog"AverageMeter
+    """
     CLASS_WEIGHTS = _category_weights()
 
     def __init__(self, args, train=True):

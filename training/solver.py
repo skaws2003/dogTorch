@@ -20,11 +20,12 @@ from training import metrics
 
 
 def train_one_epoch(model, loss, optimizer, data_loader, epoch, args):
-    # Prepare model and optimizer
+    # Prepare model and optimizer for training
     model.train()
     loss.train()
+    #updata lr
     lr = model.learning_rate(epoch)
-    for param_group in optimizer.param_groups:
+    for param_group in optimizer.param_groups: 
         param_group['lr'] = lr
     # Setup average meters
     data_time_meter = metrics.AverageMeter()
@@ -36,21 +37,24 @@ def train_one_epoch(model, loss, optimizer, data_loader, epoch, args):
     stat_each_indiv = {}
 
     # Iterate over data
-    timestamp = time.time()
+    timestamp = time.time() # Just timestamp
 
     all_joints = {}
     all_sequences = {}
 
-    for i, (input, target, prev_absolutes, next_absolutes,
-            file_names) in enumerate(data_loader):
-
+    for i, (input, target, prev_absolutes, next_absolutes, file_names) in enumerate(data_loader):       # In acting, data_loader is "DogClipDataset"
+            # input: two consecutive frames(previous frame, consecutive frame)
+            # target: next IMU values
+            # prev_absolutes: previous imu values
+            # next_absolutes: current imu values
+            # file_names: file names
         # Move data to gpu
         batch_size = input.size(0)
         input = Variable(input.cuda(async=True))
         target = Variable(target.cuda(async=True))
         prev_absolutes = prev_absolutes.cuda(async=True)
         next_absolutes = next_absolutes.cuda(async=True)
-        data_time_meter.update(time.time() - timestamp, batch_size)
+        data_time_meter.update(time.time() - timestamp, batch_size)     # Add params to average time
 
         # Forward pass
         output, target_output, output_indices = model(input, target)
