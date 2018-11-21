@@ -45,8 +45,6 @@ class LstmImg2LastImus(BaseModel):
         input = input.transpose(0, 1)       
         embedded_input = self.embedding_input(input)
         full_output = self.lstm(embedded_input, target=None)
-        print(torch.LongTensor(output_indices))
-        exit()
         return full_output.transpose(0, 1), target, torch.LongTensor(output_indices)
 
     def loss(self):

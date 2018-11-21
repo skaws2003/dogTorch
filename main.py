@@ -19,7 +19,6 @@ import pdb
 from torch.autograd import Variable
 from training import solver
 
-# Push Test
 
 def model_class(class_name):
     if class_name not in models.__all__:
