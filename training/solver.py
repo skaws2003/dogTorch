@@ -43,11 +43,17 @@ def train_one_epoch(model, loss, optimizer, data_loader, epoch, args):
     all_sequences = {}
 
     for i, (input, target, prev_absolutes, next_absolutes, file_names) in enumerate(data_loader):       # In acting, data_loader is "DogClipDataset"
-            # input: two consecutive frames(previous frame, consecutive frame)
-            # target: next IMU values
-            # prev_absolutes: previous imu values
-            # next_absolutes: current imu values
-            # file_names: file names
+        # Default Batch size = 256
+        # input: [256,10,1024]
+        # target: next IMU values
+        # prev_absolutes: previous imu values [256,10,6,4] (batch, seq_len, num_imu ,quaternion)
+        # next_absolutes: current imu values
+        # file_names: file names
+        """ For test
+        if i==1:
+            print("Look at solver.py")
+            exit(0)
+        """
         # Move data to gpu
         batch_size = input.size(0)
         input = Variable(input.cuda(async=True))

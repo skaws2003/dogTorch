@@ -77,7 +77,9 @@ def _category_weights():
 
 class DogClipDataset(data.Dataset):
     """
-    A dataset for "Acting Like a Dog"AverageMeter
+    A dataset for "Acting Like a Dog"
+    Image frame data are encoded in train.json - so we just load it.
+    in_features=1024(512 + 512)
     """
     CLASS_WEIGHTS = _category_weights()
 
@@ -185,5 +187,8 @@ class DogClipDataset(data.Dataset):
                                  self.frames_metadata[fid + i]['cur_frame']))
                 features.append(image)
             labels = torch.stack(features)
-        return (input, labels, absolute_prev_imus, absolute_cur_imus,
-                current_images_files)
+        # IMU valus as input
+        diff_imus = (absolute_cur_imus - absolute_prev_imus).view((self.sequence_length,24))
+        tensora = torch.cat([input,diff_imus],dim=1)
+        #return (input, labels, absolute_prev_imus, absolute_cur_imus, current_images_files)
+        return (tensora, labels, absolute_prev_imus, absolute_cur_imus, current_images_files)
