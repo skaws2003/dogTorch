@@ -189,6 +189,6 @@ class DogClipDataset(data.Dataset):
             labels = torch.stack(features)
         # IMU valus as input
         diff_imus = (absolute_cur_imus - absolute_prev_imus).view((self.sequence_length,24))
-        tensora = torch.cat([input,diff_imus],dim=1)
+        input_with_imu = torch.cat([input,diff_imus],dim=1)
         #return (input, labels, absolute_prev_imus, absolute_cur_imus, current_images_files)
-        return (tensora, labels, absolute_prev_imus, absolute_cur_imus, current_images_files)
+        return (input_with_imu, labels, absolute_prev_imus, absolute_cur_imus, current_images_files)
