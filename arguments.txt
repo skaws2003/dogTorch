@@ -1,0 +1,4 @@
+# train(without imu)
+python3 main.py --arch LstmImg2LastImus --read_features --input_length 5 --sequence_length 10 --output_length 5 --dataset DogClipDataset --features_dir data/new_features --image_feature 1024
+# train(regression)
+python3 main.py --arch ResNet18Image2IMURegress --input_length 5 --sequence_length 10 --output_length 5 --dataset DogClipRegrDataset --image_feature 1024 --regression 

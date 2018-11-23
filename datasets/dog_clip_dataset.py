@@ -185,5 +185,4 @@ class DogClipDataset(data.Dataset):
                                  self.frames_metadata[fid + i]['cur_frame']))
                 features.append(image)
             labels = torch.stack(features)
-        return (input, labels, absolute_prev_imus, absolute_cur_imus,
-                current_images_files)
+        return (input, labels, absolute_prev_imus, absolute_cur_imus,current_images_files)
