@@ -48,6 +48,7 @@ class LstmImg2ActionPlanning(BaseModel):
         self.num_classes = args.num_classes
 
         self.embedding_input = nn.Linear(args.image_feature * 2,args.hidden_size)
+        #self.embedding_input = nn.Linear(1048,args.hidden_size)
         self.embedding_target = nn.Linear(args.num_classes * len(args.imus),args.hidden_size)
         self.lstm = nn.LSTMCell(args.hidden_size, args.hidden_size,args.num_layers)
         self.out = nn.Linear(args.hidden_size, args.imu_feature)
@@ -60,8 +61,8 @@ class LstmImg2ActionPlanning(BaseModel):
         imu_start_index = 1  #inclusive
         imu_end_index = imu_start_index + self.planning_distance  #exclusive
         assert imu_start_index > 0 and imu_end_index < self.sequence_length
-        input_start = input[:, :imu_start_index, :536]
-        input_end = input[:, imu_end_index:, :536]
+        input_start = input[:, :imu_start_index, :512]
+        input_end = input[:, imu_end_index:, :512]
         target = target[:, imu_start_index:imu_end_index]
         output_indices = list(range(imu_start_index, imu_end_index))
 

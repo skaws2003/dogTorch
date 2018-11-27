@@ -18,8 +18,10 @@ import pdb
 
 
 def _read_labels(json_file, imus, sequence_length):
-    """Returns a list of all frames, and a list of where each data point (whose
-    length is sequence_length) in the list of frames."""
+    """
+    Returns a list of all frames, and a list of where each data point (whose
+    length is sequence_length) in the list of frames.
+    """
     with open(json_file, 'r') as fp:
         dataset_meta = json.load(fp)
     frames = []
@@ -74,6 +76,11 @@ def _category_weights():
 
 
 class DogClipDataset(data.Dataset):
+    """
+    A dataset for "Acting Like a Dog"
+    Image frame data are encoded in train.json - so we just load it.
+    in_features=1024(512 + 512)
+    """
     CLASS_WEIGHTS = _category_weights()
 
     def __init__(self, args, train=True):
@@ -180,5 +187,9 @@ class DogClipDataset(data.Dataset):
                                  self.frames_metadata[fid + i]['cur_frame']))
                 features.append(image)
             labels = torch.stack(features)
-        return (input, labels, absolute_prev_imus, absolute_cur_imus,
-                current_images_files)
+        # IMU valus as input
+        diff_imus = (absolute_cur_imus - absolute_prev_imus).view((self.sequence_length,24))
+        input_with_imu = torch.cat([input,diff_imus],dim=1)
+        #return (input, labels, absolute_prev_imus, absolute_cur_imus, current_images_files)
+        print(input_with_imu.shape)
+        return (input_with_imu, labels, absolute_prev_imus, absolute_cur_imus, current_images_files)

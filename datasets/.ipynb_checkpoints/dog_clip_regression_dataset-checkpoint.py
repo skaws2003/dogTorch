@@ -160,8 +160,6 @@ class DogClipRegrDataset(data.Dataset):
             labels = torch.stack(features)
         #pdb.set_trace()
         diff_imus = (absolute_cur_imus - absolute_prev_imus).view((self.sequence_length,24))
-        input_with_imu = torch.cat([input,diff_imus],dim=1)
-        print(input_with_imu.shape)
-        exit()
+        print(diff_imus.shape)
         return (input_with_imu, labels, absolute_prev_imus, absolute_cur_imus,
-                current_images_files)
+                current_images_files), diff_imus
