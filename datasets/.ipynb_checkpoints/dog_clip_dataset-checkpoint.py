@@ -191,5 +191,4 @@ class DogClipDataset(data.Dataset):
         diff_imus = (absolute_cur_imus - absolute_prev_imus).view((self.sequence_length,24))
         input_with_imu = torch.cat([input,diff_imus],dim=1)
         #return (input, labels, absolute_prev_imus, absolute_cur_imus, current_images_files)
-        print(input_with_imu.shape)
         return (input_with_imu, labels, absolute_prev_imus, absolute_cur_imus, current_images_files)

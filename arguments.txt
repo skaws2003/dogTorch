@@ -4,4 +4,4 @@ python3 main.py --arch LstmImg2LastImus --read_features --input_length 5 --seque
 python3 main.py --arch ResNet18Image2IMURegress --input_length 1 --sequence_length 1 --output_length 1 --dataset DogClipRegrDataset --image_feature 1048 --regression 
 
 # Planning
- python3 main.py --arch LstmImg2ActionPlanning --read_features --planning_distance 5 --sequence_length 7 --output_length 5 --features_dir data/new_features --single_image_feature --image_feature 536 
+python3 main.py --arch LstmImg2ActionPlanning --read_features --planning_distance 5 --sequence_length 7 --output_length 5 --features_dir data/new_features --single_image_feature --image_feature 536 
